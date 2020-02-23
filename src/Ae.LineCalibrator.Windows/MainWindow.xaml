@@ -1,0 +1,41 @@
+﻿<Window x:Class="Ae.Mixer.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ae.Mixer.Windows"
+        mc:Ignorable="d"
+        Title="Line Calibrator" Height="450" Width="800">
+    <Window.DataContext>
+        <local:LineCalibratorViewModel/>
+    </Window.DataContext>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" IsEnabled="{Binding IsEnabled}">
+            <DockPanel>
+                <TextBlock Text="Input Device" VerticalAlignment="Center"/>
+                <ComboBox Margin="10,10,0,10" ItemsSource="{Binding InputDevices}" SelectedValue="{Binding SelectedInputDevice, Mode=TwoWay}"/>
+            </DockPanel>
+            <ProgressBar Height="75" Value="{Binding AudioVolume, Mode=OneWay}" Foreground="{Binding SliderColor}"/>
+            <DockPanel>
+                <CheckBox Margin="0,10,10,10" Content="Lock" IsChecked="{Binding IsLocked}" VerticalAlignment="Center"/>
+                <DockPanel>
+                    <TextBlock Text="{Binding DeviceVolume}" VerticalAlignment="Center"/>
+                    <TextBlock Text="dB" VerticalAlignment="Center"/>
+                </DockPanel>
+                <Slider Margin="10,10,0,10" Value="{Binding DeviceVolume}" IsEnabled="{Binding IsNotLocked}" Minimum="{Binding DeviceMinVolume}" Maximum="{Binding DeviceMaxVolume}" TickPlacement="BottomRight"/>
+            </DockPanel>
+            <Button Command="{Binding MeasureClippingCommand}" ToolTip="Once clicked, starts to the reduce the device volume until clipping stops.&#10;During this time, you need to generate a full signal to your input device (e.g. by shouting into your microphone).">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Content" Value="Reduce Volume to Safe Levels"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMeasuringClipping}" Value="True">
+                                <Setter Property="Content" Value="Measuring for 5 seconds, please make your input device clip"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
