@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Ae.Mixer.Windows
@@ -11,6 +12,12 @@ namespace Ae.Mixer.Windows
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            (DataContext as IDisposable)?.Dispose();
+            base.OnClosing(e);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Ae.Mixer.Windows
 {
-    public sealed class LineCalibratorViewModel : INotifyPropertyChanged
+    public sealed class LineCalibratorViewModel : INotifyPropertyChanged, IDisposable
     {
         private AudioDeviceRepository _audioDeviceRepository = new AudioDeviceRepository();
 
@@ -146,6 +146,14 @@ namespace Ae.Mixer.Windows
         private void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void Dispose()
+        {
+            foreach (var device in InputDevices)
+            {
+                device.Dispose();
+            }
         }
 
         public AudioDevice[] InputDevices { get; }
