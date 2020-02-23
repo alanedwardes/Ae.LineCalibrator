@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ae.Mixer.Windows"
         mc:Ignorable="d"
-        Title="Line Calibrator" Height="450" Width="800">
+        Title="Line Calibrator" Height="450" Width="610">
     <Window.DataContext>
         <local:LineCalibratorViewModel/>
     </Window.DataContext>
