@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ae.Mixer.Windows"
         mc:Ignorable="d"
-        Title="Line Calibrator" Height="450" Width="610">
+        Title="Line Calibrator" SizeToContent="Height" Width="600">
     <Window.DataContext>
         <local:LineCalibratorViewModel/>
     </Window.DataContext>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" IsEnabled="{Binding IsEnabled}">
-            <DockPanel>
+            <DockPanel Margin="0,0,0,10">
                 <TextBlock Text="Input Device" VerticalAlignment="Center"/>
-                <ComboBox Margin="10,10,0,10" ItemsSource="{Binding InputDevices}" SelectedValue="{Binding SelectedInputDevice, Mode=TwoWay}"/>
+                <ComboBox ItemsSource="{Binding InputDevices}" SelectedValue="{Binding SelectedInputDevice, Mode=TwoWay}" Margin="10,0,0,0"/>
             </DockPanel>
             <ProgressBar Height="75" Value="{Binding AudioVolume, Mode=OneWay}" Foreground="{Binding SliderColor}"/>
             <DockPanel>
