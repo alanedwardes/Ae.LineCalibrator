@@ -32,7 +32,7 @@ namespace Ae.Mixer
         {
             if (_lockedVolume.HasValue)
             {
-                _audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar = _lockedVolume.Value;
+                _audioDevice.AudioEndpointVolume.MasterVolumeLevel = _lockedVolume.Value;
             }
 
             DeviceVolumeChanged?.Invoke();
@@ -59,7 +59,7 @@ namespace Ae.Mixer
 
         public void LockVolume()
         {
-            _lockedVolume = _audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar;
+            _lockedVolume = _audioDevice.AudioEndpointVolume.MasterVolumeLevel;
         }
 
         public void UnlockVolume()

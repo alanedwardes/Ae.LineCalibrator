@@ -130,7 +130,7 @@ namespace Ae.Mixer.Windows
 
             RaisePropertyChanged(nameof(DeviceMinVolume));
             RaisePropertyChanged(nameof(DeviceMaxVolume));
-            SelectedInputDevice.StopSamplingDeviceVolume();
+            SelectedInputDevice.StartSamplingDeviceVolume();
             SelectedInputDevice.StartSamplingAudioVolume();
         }
 
