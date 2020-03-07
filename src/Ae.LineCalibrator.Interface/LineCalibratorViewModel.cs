@@ -3,8 +3,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Ae.LineCalibrator.Audio;
+using Avalonia.Media;
 
-namespace Ae.Mixer.Windows
+namespace Ae.LineCalibrator.Interface
 {
     public sealed class LineCalibratorViewModel : INotifyPropertyChanged, IDisposable
     {
@@ -29,6 +31,7 @@ namespace Ae.Mixer.Windows
             IsMeasuringClipping = true;
             RaisePropertyChanged(nameof(IsEnabled));
             RaisePropertyChanged(nameof(IsMeasuringClipping));
+            RaisePropertyChanged(nameof(MeasureClippingText));
 
             await Task.Delay(TimeSpan.FromSeconds(5));
 
@@ -40,26 +43,40 @@ namespace Ae.Mixer.Windows
             IsMeasuringClipping = false;
             RaisePropertyChanged(nameof(IsEnabled));
             RaisePropertyChanged(nameof(IsMeasuringClipping));
+            RaisePropertyChanged(nameof(MeasureClippingText));
         }
 
         public bool IsEnabled => !IsMeasuringClipping;
         public bool IsMeasuringClipping { get; private set; }
 
         public float AudioVolume => SelectedInputDevice?.AudioVolume ?? 0f;
-        public string SliderColor
+        public IBrush SliderColor
         {
             get
             {
                 if (AudioVolume > 95)
                 {
-                    return "red";
+                    return Brushes.Red;
                 }
                 else if (AudioVolume > 80)
                 {
-                    return "orange";
+                    return Brushes.Orange;
                 }
 
-                return "green";
+                return Brushes.Green;
+            }
+        }
+
+        public string MeasureClippingText
+        {
+            get
+            {
+                if (IsMeasuringClipping)
+                {
+                    return "Measuring Clipping - Please Generate a Loud Signal";
+                }
+
+                return "Reduce Volume to Safe Levels";
             }
         }
 
@@ -112,6 +129,11 @@ namespace Ae.Mixer.Windows
 
         private void AudioDeviceChanged(AudioDevice newDevice)
         {
+            if (newDevice == null)
+            {
+                return;
+            }
+
             SelectedInputDevice?.StopSamplingDeviceVolume();
             SelectedInputDevice?.StopSamplingAudioVolume();
             _selectedInputDevice = newDevice;

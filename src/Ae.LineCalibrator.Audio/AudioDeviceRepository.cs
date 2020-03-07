@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ae.Mixer
+namespace Ae.LineCalibrator.Audio
 {
     public sealed class AudioDeviceRepository
     {

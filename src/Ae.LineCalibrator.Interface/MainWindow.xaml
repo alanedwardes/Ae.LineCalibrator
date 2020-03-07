@@ -1,0 +1,26 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" SizeToContent="Height" Width="600"
+        x:Class="Ae.LineCalibrator.Interface.MainWindow"
+        Title="Ae.LineCalibrator.Interface">
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" IsEnabled="{Binding IsEnabled}">
+      <DockPanel Margin="0,0,0,10">
+        <TextBlock Text="Input Device" VerticalAlignment="Center"/>
+        <ComboBox Items="{Binding InputDevices}" SelectedItem="{Binding SelectedInputDevice, Mode=TwoWay}" Margin="10,0,0,0"/>
+      </DockPanel>
+      <ProgressBar Height="75" Value="{Binding AudioVolume, Mode=OneWay}" Foreground="{Binding SliderColor}"/>
+      <DockPanel>
+        <CheckBox Margin="0,10,10,10" Content="Lock" IsChecked="{Binding IsLocked}" VerticalAlignment="Center"/>
+        <DockPanel>
+          <TextBlock Text="{Binding DeviceVolume}" VerticalAlignment="Center"/>
+          <TextBlock Text="dB" VerticalAlignment="Center"/>
+        </DockPanel>
+        <Slider Margin="10,10,0,10" Value="{Binding DeviceVolume}" IsEnabled="{Binding IsNotLocked}" Minimum="{Binding DeviceMinVolume}" Maximum="{Binding DeviceMaxVolume}"/>
+      </DockPanel>
+      <Button Command="{Binding MeasureClippingCommand}" Content="{Binding MeasureClippingText}"/>
+    </StackPanel>
+  </ScrollViewer>
+</Window>

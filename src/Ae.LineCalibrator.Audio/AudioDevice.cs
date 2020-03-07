@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ae.Mixer
+namespace Ae.LineCalibrator.Audio
 {
     public sealed class AudioDevice : IDisposable
     {

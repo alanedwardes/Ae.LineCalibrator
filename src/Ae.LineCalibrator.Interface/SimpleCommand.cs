@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Ae.Mixer.Windows
+namespace Ae.LineCalibrator.Interface
 {
     public sealed class SimpleCommand : ICommand
     {
