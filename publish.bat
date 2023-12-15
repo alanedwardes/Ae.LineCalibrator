@@ -1,2 +1,2 @@
-rmdir "publish/win10-x64" /s /q
-dotnet publish src/Ae.LineCalibrator.Interface -c Release -r win10-x64 -o publish/win10-x64
+rmdir "publish/win-x64" /s /q
+dotnet publish src/Ae.LineCalibrator.Interface -c Release -r win-x64 -o publish/win-x64
