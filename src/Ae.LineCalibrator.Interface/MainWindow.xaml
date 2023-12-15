@@ -9,7 +9,7 @@
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" IsEnabled="{Binding IsEnabled}">
       <DockPanel Margin="0,0,0,10">
         <TextBlock Text="Input Device" VerticalAlignment="Center"/>
-        <ComboBox Items="{Binding InputDevices}" SelectedItem="{Binding SelectedInputDevice, Mode=TwoWay}" Margin="10,0,0,0"/>
+        <ComboBox ItemsSource="{Binding InputDevices}" SelectedItem="{Binding SelectedInputDevice, Mode=TwoWay}" Margin="10,0,0,0"/>
       </DockPanel>
       <ProgressBar Height="75" Value="{Binding AudioVolume, Mode=OneWay}" Foreground="{Binding SliderColor}"/>
       <DockPanel>

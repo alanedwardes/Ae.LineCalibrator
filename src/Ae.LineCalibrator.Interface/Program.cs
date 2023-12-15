@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Logging.Serilog;
 
 namespace Ae.LineCalibrator.Interface
 {
@@ -14,7 +13,6 @@ namespace Ae.LineCalibrator.Interface
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
-                .UsePlatformDetect()
-                .LogToDebug();
+                .UsePlatformDetect();
     }
 }

@@ -1,8 +1,6 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using System;
-using System.ComponentModel;
 
 namespace Ae.LineCalibrator.Interface
 {
@@ -12,12 +10,9 @@ namespace Ae.LineCalibrator.Interface
         {
             InitializeComponent();
             DataContext = new LineCalibratorViewModel();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
-        protected override void OnClosing(CancelEventArgs e)
+        protected override void OnClosing(WindowClosingEventArgs e)
         {
             ((IDisposable)DataContext).Dispose();
         }
