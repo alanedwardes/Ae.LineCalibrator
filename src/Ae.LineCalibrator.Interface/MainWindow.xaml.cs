@@ -14,6 +14,8 @@ namespace Ae.LineCalibrator.Interface
 
         protected override void OnClosing(WindowClosingEventArgs e)
         {
+            Hide();
+            e.Cancel = true;
             ((IDisposable)DataContext).Dispose();
         }
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Ae.LineCalibrator.Audio;
 using Avalonia.Media;
 
@@ -14,7 +12,6 @@ namespace Ae.LineCalibrator.Interface
 
         public LineCalibratorViewModel()
         {
-            MeasureClippingCommand = new SimpleCommand(() => MeasureClipping());
             InputDevices = _audioDeviceRepository.GetCaptureDevices().ToArray();
             if (InputDevices.Any())
             {
@@ -22,32 +19,28 @@ namespace Ae.LineCalibrator.Interface
             }
         }
 
-        public ICommand MeasureClippingCommand { get; }
-
-        private async void MeasureClipping()
+        public bool IsLiveMeterEnabled
         {
-            var startVolume = DeviceVolume;
-
-            IsMeasuringClipping = true;
-            RaisePropertyChanged(nameof(IsEnabled));
-            RaisePropertyChanged(nameof(IsMeasuringClipping));
-            RaisePropertyChanged(nameof(MeasureClippingText));
-
-            await Task.Delay(TimeSpan.FromSeconds(5));
-
-            if (startVolume != DeviceVolume)
+            get
             {
-                DeviceVolume += 1;
+                return _isLiveMeterEnabled;
             }
-
-            IsMeasuringClipping = false;
-            RaisePropertyChanged(nameof(IsEnabled));
-            RaisePropertyChanged(nameof(IsMeasuringClipping));
-            RaisePropertyChanged(nameof(MeasureClippingText));
+            set
+            {
+                if (value)
+                {
+                    SelectedInputDevice.StartSamplingAudioVolume();
+                }
+                else
+                {
+                    SelectedInputDevice.StopSamplingAudioVolume();
+                }
+                _isLiveMeterEnabled = value;
+            }
         }
+        private bool _isLiveMeterEnabled;
 
-        public bool IsEnabled => !IsMeasuringClipping;
-        public bool IsMeasuringClipping { get; private set; }
+        public string LockAtText => $"Lock at {DeviceVolume}dB";
 
         public float AudioVolume => SelectedInputDevice?.AudioVolume ?? 0f;
         public IBrush SliderColor
@@ -67,19 +60,6 @@ namespace Ae.LineCalibrator.Interface
             }
         }
 
-        public string MeasureClippingText
-        {
-            get
-            {
-                if (IsMeasuringClipping)
-                {
-                    return "Measuring Clipping - Please Generate a Loud Signal";
-                }
-
-                return "Reduce Volume to Safe Levels";
-            }
-        }
-
         public int DeviceMaxVolume => SelectedInputDevice?.DeviceMaxVolume ?? 0;
         public int DeviceMinVolume => SelectedInputDevice?.DeviceMinVolume ?? 0;
 
@@ -93,6 +73,7 @@ namespace Ae.LineCalibrator.Interface
                     SelectedInputDevice.DeviceVolume = value;
                 }
                 RaisePropertyChanged(nameof(DeviceVolume));
+                RaisePropertyChanged(nameof(LockAtText));
             }
         }
 
@@ -142,27 +123,17 @@ namespace Ae.LineCalibrator.Interface
             {
                 RaisePropertyChanged(nameof(SliderColor));
                 RaisePropertyChanged(nameof(AudioVolume));
-                CheckClipping();
             };
 
             SelectedInputDevice.DeviceVolumeChanged += () =>
             {
                 RaisePropertyChanged(nameof(DeviceVolume));
+                RaisePropertyChanged(nameof(LockAtText));
             };
 
             RaisePropertyChanged(nameof(DeviceMinVolume));
             RaisePropertyChanged(nameof(DeviceMaxVolume));
             SelectedInputDevice.StartSamplingDeviceVolume();
-            SelectedInputDevice.StartSamplingAudioVolume();
-        }
-
-        private void CheckClipping()
-        {
-            if (IsMeasuringClipping && MathF.Round(AudioVolume) == 100)
-            {
-                DeviceVolume -= 1;
-                RaisePropertyChanged(nameof(DeviceVolume));
-            }
         }
 
         private void RaisePropertyChanged(string propertyName)

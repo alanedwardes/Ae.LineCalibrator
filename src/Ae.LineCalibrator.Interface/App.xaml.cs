@@ -9,6 +9,7 @@ namespace Ae.LineCalibrator.Interface
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
+            DataContext = new AppViewModel(ApplicationLifetime as IClassicDesktopStyleApplicationLifetime);
         }
 
         public override void OnFrameworkInitializationCompleted()

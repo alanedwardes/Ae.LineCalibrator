@@ -4,4 +4,19 @@
     <Application.Styles>
 		<FluentTheme />
     </Application.Styles>
+	<TrayIcon.Icons>
+		<TrayIcons>
+			<TrayIcon Icon="/Assets/Speaker.ico"
+					  ToolTipText="Avalonia Tray Icon ToolTip"
+					  Command="{Binding SystemTrayCommand}">
+				<TrayIcon.Menu>
+					<NativeMenu>
+						<NativeMenuItem Header="Show" Command="{Binding SystemTrayCommand}"/>
+						<NativeMenuItemSeparator />
+						<NativeMenuItem Header="Exit" Command="{Binding ExitCommand}"/>
+					</NativeMenu>
+				</TrayIcon.Menu>
+			</TrayIcon>
+		</TrayIcons>
+	</TrayIcon.Icons>
 </Application>

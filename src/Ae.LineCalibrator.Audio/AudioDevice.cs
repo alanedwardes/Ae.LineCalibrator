@@ -23,7 +23,7 @@ namespace Ae.LineCalibrator.Audio
         public AudioDevice(MMDevice audioDevice)
         {
             _audioDevice = audioDevice;
-            _name = $"{_audioDevice.FriendlyName} ({_audioDevice.State})";
+            _name = _audioDevice.FriendlyName;
         }
 
         public override string ToString() => _name;
@@ -117,6 +117,8 @@ namespace Ae.LineCalibrator.Audio
                 _waveIn.StopRecording();
                 _waveIn.Dispose();
             }
+            _audioVolume = 0.0f;
+            AudioVolumeSampled?.Invoke();
         }
 
         private void WaveInDataAvailable(object sender, WaveInEventArgs args)
